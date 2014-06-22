@@ -24,24 +24,20 @@ case class Canvas(width: Int, height: Int, enclosedShapes: List[Shape] = Nil) ex
     p -> pix
   }).toMap
 
+
+  private def pointSorting(x : (Point, Color), y : (Point, Color)): Boolean = {
+    val (p1: Point, c1: Color) = x
+    val (p2: Point, c2: Color) = y
+    p1.x < p2.x || p1.y < p2.y
+  }
+
   def show: String = {
-
-    def pointSorting(x : (Point, Color), y : (Point, Color)): Boolean = {
-      val (p1: Point, c1: Color) = x
-      val (p2: Point, c2: Color) = y
-      p1.x <= p2.x || p1.y <= p2.y
-    }
-
     val canvasObjectsMap : Map[Point, Color] = getCanvasBoundaryMap ++ draw(Color.Border)
     val canvasMap : Map[Point, Color] = getCanvasMap(canvasObjectsMap)
-    val pointGrpedByXcord : Map[Int, List[(Point, Color)]] = canvasMap.toList.sortWith(pointSorting).groupBy(_._1.x)
+    val pointGrpedByXcord : Map[Int, List[(Point, Color)]] = canvasMap.toList.groupBy(_._1.x)
       .mapValues(l => l.sortWith(pointSorting))
     val rowsOfColorMap : Map[Int, String] = pointGrpedByXcord.mapValues(ls => ls.map(_._2.value).mkString)
-    val entireScreen = rowsOfColorMap.values.mkString("\n")
-
-    println(canvasMap)
-    println(pointGrpedByXcord)
-    println(rowsOfColorMap)
+    val entireScreen = rowsOfColorMap.toList.sortBy(_._1).map(_._2).mkString("\n")
 
     entireScreen
   }
