@@ -1,4 +1,4 @@
-name := "scala-basics-1"
+name := "scala-basics-2"
 
 scalaVersion := "2.10.3"
 
