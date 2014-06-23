@@ -8,3 +8,5 @@ libraryDependencies ++= Seq(
 )
 
 transitiveClassifiers in Global := Seq(Artifact.SourceClassifier)
+
+org.scalastyle.sbt.ScalastylePlugin.Settings
