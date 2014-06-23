@@ -10,8 +10,8 @@ case class Canvas(width: Int, height: Int, enclosedShapes: List[Shape] = Nil) ex
   }
 
   private def getCanvasBoundaryMap : Map[Point, Color] = {
-    val hBoundary = for(i <- 0 to width) yield List(Point(0, i) -> Color.HBoundary, Point(height, i) -> Color.HBoundary)
-    val vBoundary = for(i <- 1 to height) yield List(Point(i, 0) -> Color.VBoundary, Point(i, width) -> Color.VBoundary)
+    val hBoundary = for(i <- 0 to width) yield List(Point(i, 0) -> Color.VBoundary, Point(i, height) -> Color.VBoundary)
+    val vBoundary = for(i <- 0 to height) yield List(Point(0, i) -> Color.HBoundary, Point(width, i) -> Color.HBoundary)
     (hBoundary.flatten ++ vBoundary.flatten).toMap
   }
 
