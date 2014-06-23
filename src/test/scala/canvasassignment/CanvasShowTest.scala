@@ -103,4 +103,57 @@ class CanvasShowTest extends Specification{
     }
   }
 
+  "A Canvas with a vertical line and rectangle with a bucket fill" should {
+    "show the vertical line and rectangle and fill the region containing the point along with the canvas boundary" in {
+      val canvas = Canvas(8, 8)
+        .add(Line(Point(1,2), Point(4,2)))
+        .add(Rectangle(Point(5,2), Point(7,4)))
+
+      canvas.bucketFill(Point(3,4)) must beEqualTo(
+        """---------
+          || xooooo|
+          || xooooo|
+          || xooooo|
+          || xooooo|
+          || xxxooo|
+          || x xooo|
+          || xxxooo|
+          |---------""".stripMargin)
+    }
+  }
+
+  "A Canvas with a rectangle with a bucket fill for a point inside the rectangle" should {
+    "fill all points inside the rectangle" in {
+      val canvas = Canvas(8, 8).add(Rectangle(Point(4,2), Point(7,5)))
+
+      canvas.bucketFill(Point(5,4)) must beEqualTo(
+        """---------
+          ||       |
+          ||       |
+          ||       |
+          || xxxx  |
+          || xoox  |
+          || xoox  |
+          || xxxx  |
+          |---------""".stripMargin)
+    }
+  }
+
+  "A Canvas with a rectangle with a bucket fill for a point outside the rectangle" should {
+    "fill all points outside the rectangle" in {
+      val canvas = Canvas(8, 8).add(Rectangle(Point(4,2), Point(7,5)))
+
+      canvas.bucketFill(Point(2,2)) must beEqualTo(
+        """---------
+          ||ooooooo|
+          ||ooooooo|
+          ||ooooooo|
+          ||oxxxxoo|
+          ||ox  xoo|
+          ||ox  xoo|
+          ||oxxxxoo|
+          |---------""".stripMargin)
+    }
+  }
+
 }
